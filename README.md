@@ -2,4 +2,5 @@ A blazor WASM client for testing signalr servers and hubs, it's mainly a **dev-h
 
 Docker image is also available for testing local or CORS protected environments, feel free to use or contribute :smile:
 
-![image](https://user-images.githubusercontent.com/36865821/221361355-3d2bcd78-ef75-47dd-9be3-a67c743968d6.png)
+
+![Screenshot 2023-02-25 164240](https://user-images.githubusercontent.com/36865821/221363010-f5de4100-a042-4704-bac2-9e2903fabab2.png)
