@@ -1,0 +1,8 @@
+.success_info {
+    padding: 5px;
+    border-radius: 5px;
+    text-align: end;
+    font-size: 15px;
+    color: #66e166;
+    font-family: sans-serif;
+}

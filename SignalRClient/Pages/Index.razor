@@ -1,0 +1,50 @@
+﻿@page "/"
+@using SignalRClient.Shared.Components;
+
+<PageTitle>Server Connection</PageTitle>
+
+<MudExpansionPanel Text="Server Connection" @bind-IsExpanded="_isExpanded">
+    
+    <MudTextField Style=" margin-top: 15px"  @bind-Value="Host" Label="Host" Variant="Variant.Text"></MudTextField>
+
+    <MudTextField Style=" margin-top: 15px" @bind-Value="AuthKey" Label="Token" Variant="Variant.Text"></MudTextField>
+
+    <MudTextField Style=" margin-top: 15px" @bind-Value="Actions" Placeholder="Comma seperated text for hub subscribtion actions" Label="On Actions" Variant="Variant.Text"></MudTextField>
+
+    <MudCheckBox Style=" margin-top: 15px" @bind-Checked="@AutomaticRetry" Label="Automatic Retry" Color="Color.Primary"></MudCheckBox>
+    @if (!_connected)
+    {
+        <MudButton OnClick="ConnectAsync" Style="width: 250px; margin-top: 15px" Color="Color.Primary" Variant="Variant.Filled">Start Connection</MudButton>
+    }
+    else
+    {
+        <MudButton OnClick="DisconnectAsync" Style="width: 250px; margin-top: 15px" Color="Color.Error" Variant="Variant.Filled">Stop Connection</MudButton>
+    }
+</MudExpansionPanel>
+
+    <MudGrid>
+        <MudItem xs="4">
+            <MudTextField Style="margin-top: 15px" @bind-Value="InvokedMethod" Label="Invoked Method" Variant="Variant.Text"></MudTextField>
+            <MudTextField Style="margin-top: 15px" Placeholder="Comma seperated text for parameters (ordered)" @bind-Value="Parameters" Label="Parameters" Variant="Variant.Text"></MudTextField>
+        <MudButton OnClick="InvokeMethodAsync" Style="width: 150px; margin-top: 15px" Color="Color.Primary" Variant="Variant.Filled">Invoke Method</MudButton>
+
+        </MudItem>
+        <MudItem xs="8">
+            <MudPaper Elevation="25">
+                <MudToolBar>
+                <MudIconButton Icon="@Icons.Material.Outlined.Delete" OnClick="ClearLogs" Title="Clear" Color="Color.Inherit" />
+                    <MudIconButton Icon="@Icons.Material.Outlined.Save" OnClick="ApplyFilters" Title="Apply" Color="Color.Inherit" Class="mr-5" />
+                    <MudTextField @bind-Value=@LogsLimit  T="int" Style="width: 70px;" Label="Limit" Color="Color.Primary"/>
+
+                <MudCheckBox Disabled="true" @bind-Checked="@BeautifyJson" Label="Beautify Json" Color="Color.Primary" />
+
+                    @if (_connected)
+                    {
+                        <MudSpacer/>
+                        <div class="success_info">Connected To <strong><i>@Host</i></strong> with connection id <strong><i>{@RealtimeClientService.Connection().ConnectionId}</i></strong></div>
+                    }
+                </MudToolBar>
+            </MudPaper>
+            <ConsoleComponent @ref="_consoleComponent"></ConsoleComponent>
+        </MudItem>
+    </MudGrid>

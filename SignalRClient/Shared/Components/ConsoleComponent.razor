@@ -1,0 +1,47 @@
+﻿@using SignalRClient.ViewModels
+
+
+<div style="border: solid 1px black; border-radius: 2px; background-color: black; color: white;overflow: scroll; height: 700px">
+    @foreach (var signal in Signals)
+    {
+        <i><span style="color:green">@signal.DateTime.ToString("T")</span></i>
+        <strong>@signal.Payload</strong>
+        <br/>
+    }
+</div>
+
+@code {
+
+    [Parameter]
+    public int MaxLogCount { get; set; } = 50;
+
+    private Queue<SignalViewModel> Signals { get; set; } = new Queue<SignalViewModel>();
+
+    public bool BeautifyJson { get; set; }
+
+    public void AddSignal(SignalViewModel viewModel)
+    {
+        Signals.Enqueue(viewModel);
+        if (Signals.Count >= MaxLogCount)
+            Signals.Dequeue();
+
+        StateHasChanged();
+    }
+
+    public void Clear()
+    {
+        Signals.Clear();
+        StateHasChanged();
+    }
+
+    public void ApplyLimit(int limit)
+    {
+        MaxLogCount = limit;
+        while (Signals.Count>=limit)
+        {
+            Signals.Dequeue();
+        }
+        StateHasChanged();
+    }
+
+}
